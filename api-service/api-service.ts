@@ -1,6 +1,6 @@
 import { $apiAuth } from "@/api/interceptors";
 import { ISignUpPayload, IAuthPromise, ISignInPayload } from "@/app/types/auth.types";
-import { cookies } from 'next/headers'
+import { cookies } from "next/headers";
 export const signUp =  async (data:ISignUpPayload): Promise<IAuthPromise | undefined> => {
     try{
         const response = await $apiAuth.post("auth/signup", data)
@@ -14,6 +14,7 @@ export const signUp =  async (data:ISignUpPayload): Promise<IAuthPromise | undef
 export const signIn =  async (data:ISignInPayload): Promise<IAuthPromise | undefined>  => {
     try{
         const response = await $apiAuth.post("auth/signin", data)
+        cookies().set("token", response?.data?.tokens?.access_token)
         return response?.data
     }catch(err){
         console.log(err);

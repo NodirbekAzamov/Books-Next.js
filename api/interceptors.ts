@@ -1,6 +1,5 @@
 import axios from "axios";
-import { cookies } from "next/headers";
-
+import Cookies from "js-cookie"
 const API_URL = process.env.API_URL 
 
 const $api = axios.create({
@@ -12,13 +11,12 @@ const $apiAuth = axios.create({
 })
 
 $api.interceptors.request.use((config) => {
-    const accessToken = cookies().get("token")
+    const accessToken = Cookies.get("token")
     if(config.headers && accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`
     }
     return config
 })
-
 
 export  {$api,$apiAuth}
 
